@@ -49,13 +49,19 @@ def liveupdate(n,filepath_):
         df_dxd.drop(df_dxd.columns[[3, 4, 6,7]], axis=1, inplace=True)
         df_dxd.columns = ['Date', 'Time', 'Outlet', 'Inlet']
         df_dxd['DateTime'] = pd.to_datetime(df_dxd['Date'] + " " + df_dxd['Time'])
-        # fig = px.scatter(df_dxd, x=df_dxd.DateTime, y=df_dxd.Outlet)
-        # fig = go.Figure(go.Scatter(x=df_dxd.DateTime, y=df_dxd.Inlet, mode='lines',))
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df_dxd.DateTime, y=df_dxd.Outlet,
-                             name="Outlet", line_color='Blue', opacity=.5))
+                             name="Outlet"))
         fig.add_trace(go.Scatter(x=df_dxd.DateTime, y=df_dxd.Inlet,
-                            name="Inlet", line_color='Green', opacity=.5))
+                            name="Inlet", yaxis = "y2"))
+        # Set y-axes titles
+        fig.update_layout(yaxis=dict(title="Outlet", titlefont=dict(color="#1f77b4"), 
+                                     tickfont=dict(color="#1f77b4")),
+                           yaxis2=dict(title="Inlet",titlefont=dict(
+                               color="#ff7f0e"), tickfont=dict(color="#ff7f0e"),
+                               anchor="x", overlaying="y", side="right"),
+                           uirevision='foo'
+                           )                          
         return fig
     else:
         # fig = px.scatter(x=[1], y=[1])
